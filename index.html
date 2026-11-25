@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Visualizador de la conjetura de Collatz</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="collatz-sequence.js" defer></script>
+  <script src="collatz-canvas.js" defer></script>
+  <script src="input-widget.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">Explorador matemático</p>
+        <h1>Conjetura de Collatz</h1>
+        <p class="intro">Sigue cada transición y explora su geometría paso a paso.</p>
+      </div>
+      <details class="settings-menu">
+        <summary class="icon-button">
+          <span aria-hidden="true">⚙</span><span>Configuración</span><span aria-hidden="true">▾</span>
+        </summary>
+        <div class="settings-dropdown" aria-label="Configuración visual">
+          <button class="control-button" id="orientationButton" type="button" aria-pressed="false">
+            <span aria-hidden="true">↕</span><span id="orientationLabel">Orientación: horizontal</span>
+          </button>
+          <button class="control-button" id="colorButton" type="button" aria-pressed="false">
+            <span aria-hidden="true">◉</span><span id="colorLabel">Color: por paridad</span>
+          </button>
+          <button class="control-button" id="fillButton" type="button" aria-pressed="true">
+            <span aria-hidden="true">◒</span><span id="fillLabel">Relleno: activado</span>
+          </button>
+          <button class="control-button" id="numberLabelsButton" type="button" aria-pressed="true">
+            <span aria-hidden="true">#</span><span id="numberLabelsLabel">Números de la recta: visibles</span>
+          </button>
+          <button class="control-button" id="themeButton" type="button" aria-label="Cambiar a tema oscuro">
+            <span aria-hidden="true">◐</span><span id="themeLabel">Tema oscuro</span>
+          </button>
+        </div>
+      </details>
+    </header>
+
+    <section class="visualization panel" aria-label="Gráfica de la secuencia">
+      <div class="canvas-wrap" id="canvasWrap">
+        <canvas id="collatzCanvas" aria-label="Recta numérica con los valores alcanzados y semicírculos de Collatz"></canvas>
+        <div class="tooltip" id="tooltip" role="status" hidden></div>
+        <div class="empty-state" id="emptyState">
+          <span aria-hidden="true" class="empty-icon">⌁</span>
+          <strong>Tu gráfica aparecerá aquí</strong>
+          <span>Genera una secuencia y arrastra para explorarla.</span>
+        </div>
+        <section class="input-widget panel" id="inputWidget" aria-label="Generar secuencia">
+          <form id="sequenceForm" class="number-form" novalidate>
+            <div class="input-widget-heading">
+              <label for="numberInput">Número entero positivo</label>
+              <span class="drag-indicator" aria-hidden="true" title="Puedes arrastrar este panel">⠿</span>
+            </div>
+            <div class="input-row">
+              <input id="numberInput" name="number" type="text" inputmode="numeric"
+                     autocomplete="off" spellcheck="false" aria-describedby="inputHelp"
+                     placeholder="Por ejemplo, 27" required>
+              <button class="primary-button" id="generateButton" type="submit">Graficar secuencia</button>
+            </div>
+            <span class="help-text" id="inputHelp">Solo se permiten dígitos; el valor debe ser mayor que cero.</span>
+          </form>
+        </section>
+        <div class="zoom-controls" aria-label="Controles de zoom">
+          <button class="zoom-button" id="zoomOutButton" type="button" aria-label="Alejar">−</button>
+          <button class="zoom-button" id="resetViewButton" type="button" aria-label="Restablecer vista">Ajustar</button>
+          <button class="zoom-button" id="zoomInButton" type="button" aria-label="Acercar">+</button>
+        </div>
+      </div>
+      <p class="gesture-hint">Rueda o trackpad para acercar · Arrastra para mover · Ajustar para volver a la vista completa</p>
+    </section>
+
+    <footer>La conjetura afirma que, empezando por cualquier entero positivo, la secuencia llega finalmente a 1.</footer>
+
+    <section class="summary panel" aria-live="polite">
+      <div class="summary-heading">
+        <h2>Resumen</h2>
+        <p id="statusText">Introduce un número para comenzar.</p>
+      </div>
+      <div class="summary-stats">
+        <div><span class="stat-label">Pasos</span><strong id="stepsValue">—</strong></div>
+        <div><span class="stat-label">Máximo alcanzado</span><strong id="maximumValue">—</strong></div>
+        <div><span class="stat-label">Términos</span><strong id="termsValue">—</strong></div>
+      </div>
+      <details class="sequence-details" id="sequenceDetails">
+        <summary>Ver secuencia</summary>
+        <p id="sequenceText">La secuencia aparecerá aquí.</p>
+      </details>
+    </section>
+  </main>
+</body>
+</html>
